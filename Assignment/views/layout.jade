@@ -5,17 +5,61 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js")
     html.
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/googlemaps.js"></script>
+        <script type="text/javascript" src="js/twit.js"></script>
+        <script type="text/javascript" src="js/socket.io.js"></script>
+
+        <!-- style sheets -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-flatly.min.css">
+        <link rel="stylesheet" type="text/css" href="css/custom.css">
+
+        <link rel="icon" type="image/ico" href="favicon.ico">
         <script type='text/javascript'>
 
             $(document).ready(function(){
                 $("button").click(function(){
-                    $.getJSON("/string", function(data, status){
-                        alert("Data: " + data.some + "\nStatus: " + status);
+                    $.post("handle",
+                    {
+                        name: "Donald Duck",
+                        city: "Duckburg"
+                    },
+                    function(data, status){
+                        alert(data);
                     });
                 });
             });
 
         </script>
 
-  body
+        <body>
+                        
+            <div class="tab-pane fade active in voffset30" id="twit-tpd">
+                <form class="form-horizontal" onsubmit="return false;" id="twit-tpd-form">
+                    <fieldset>
+                        <legend>Track Public Discussions</legend>
+
+                        <div class="form-group">
+                            <label for="search" class="col-md-2 col-sm-4 control-label">Search: </label>
+                            <div class="col-md-10 col-sm-8">
+                                <input type="text" class="form-control" id="twit-tpd-input-search" name="search">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-sm-offset-3 col-md-3">
+                                <input type="submit" class="btn btn-primary" id="twit-tpd-submit" value="Track Discussions">
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </body>
     block content
