@@ -3,32 +3,37 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js")
+    
     html.
+
         <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/googlemaps.js"></script>
-        <script type="text/javascript" src="js/twit.js"></script>
-        <script type="text/javascript" src="js/socket.io.js"></script>
+
 
         <!-- style sheets -->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/bootstrap-flatly.min.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
+
 
         <link rel="icon" type="image/ico" href="favicon.ico">
         <script type='text/javascript'>
 
             $(document).ready(function(){
-                $("button").click(function(){
+                $("#banana").submit(function(event){
+                    event.preventDefault();
+                    var $form = $(this), url = $form.attr('action');
                     $.post("handle",
                     {
-                        name: "Donald Duck",
-                        city: "Duckburg"
+                        search: $('#search').val()
                     },
                     function(data, status){
-                        alert(data);
-                    });
+
+                        var list = $("#tweets");
+
+                        $(data).each(function(index){
+                            $(list).append("<div class='well'><h3>"+data[index].user.name+"</h3><span class='date'>"+data[index].created_at+"</span><p>"+data[index].text+"</p></div>");
+                        });
+                        $(list).load()
+                    },'json');
                 });
             });
 
@@ -36,30 +41,29 @@ html
 
         <body>
                         
-            <div class="tab-pane fade active in voffset30" id="twit-tpd">
-                <form class="form-horizontal" onsubmit="return false;" id="twit-tpd-form">
+            <div class="tab-pane fade active in voffset30">
+                <form class="form-horizontal" id='banana' title="" method="post">
                     <fieldset>
-                        <legend>Track Public Discussions</legend>
+                        <legend>Query Twitter</legend>
 
                         <div class="form-group">
                             <label for="search" class="col-md-2 col-sm-4 control-label">Search: </label>
                             <div class="col-md-10 col-sm-8">
-                                <input type="text" class="form-control" id="twit-tpd-input-search" name="search">
+                                <input type="text" id='search' class="form-control" name="search">
                             </div>
                         </div>
 
-
                         <div class="form-group">
                             <div class="col-md-offset-2 col-sm-offset-3 col-md-3">
-                                <input type="submit" class="btn btn-primary" id="twit-tpd-submit" value="Track Discussions">
+                                <input type="submit" class="btn btn-primary" value="Search">
                             </div>
-
                         </div>
 
                     </fieldset>
                 </form>
-
             </div>
 
+            <div id='tweets'></div>
+
         </body>
-    block content
+
