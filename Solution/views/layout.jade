@@ -1,0 +1,69 @@
+doctype html    
+html.
+
+    <head>
+        <title>Simple Map</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <!-- javascripts -->
+        <script type="text/javascript" src="/javascripts/jquery-1.12.3.js"></script>
+        <script type='text/javascript' src="/javascripts/query.js"></script>
+        <!-- stylesheets -->
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-flatly.min.css">
+        <link rel='stylesheet', href='/stylesheets/style.css'>
+        <style>
+          html, body {
+            height: 100%;
+          }
+          #map {
+            height: 50%;
+            width: 40%;
+            margin: auto;
+          }
+        </style>
+
+        <script>
+            function initMap() {
+                window.map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 0, lng: 0},
+                    zoom: 1
+                });
+                
+            }
+            
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3fgE3XFKrvur9IuLny_HvuqRIIs8-7Ow&callback=initMap" async defer>
+        </script>
+    </head>
+
+    <body>
+
+        <div id="map" class='well'></div>
+                    
+        <div>
+            <form class="form-horizontal" id='query' title="" method="post">
+                <fieldset>
+                    <legend>Query Twitter</legend>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-2 col-sm-4 control-label">Search: </label>
+                        <div class="col-md-10">
+                            <input type="text" id='search' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-3">
+                            <input type="submit" class="btn btn-primary" value="Search">
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+
+        <div id='tweets'></div>
+
+    </body>
+
