@@ -1,0 +1,46 @@
+doctype html    
+html.
+
+    <head>
+        <title>Simple Map</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <!-- javascripts -->
+        <script type="text/javascript" src="/javascripts/jquery-1.12.3.js"></script>
+        <script type='text/javascript' src="/javascripts/wikiquery.js"></script>
+        <!-- stylesheets -->
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-flatly.min.css">
+        <link rel='stylesheet', href='/stylesheets/style.css'>
+
+    </head>
+
+    <body>
+
+       
+
+        <div>
+            <form class="form-horizontal" id='query' title="" method="post">
+                <fieldset>
+                    <legend>Query Wikipedia</legend>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-2 col-sm-4 control-label">Search: </label>
+                        <div class="col-md-10">
+                            <input type="text" id='search' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="">
+                            <input type="submit" class="btn btn-primary" value="Search">
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+        <div id='tweets'></div>
+
+    </body>
+

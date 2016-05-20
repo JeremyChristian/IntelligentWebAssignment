@@ -19,7 +19,7 @@ html.
           #map {
             height: 50%;
             width: 40%;
-            margin: auto;
+            
           }
         </style>
 
@@ -29,7 +29,6 @@ html.
                     center: {lat: 0, lng: 0},
                     zoom: 1
                 });
-                
             }
             
         </script>
@@ -37,19 +36,70 @@ html.
         </script>
     </head>
 
-    <body>
+    <body>       
 
-        <div id="map" class='well'></div>
-                    
         <div>
+        <h3>Query Twitter</h3>
             <form class="form-horizontal" id='query' title="" method="post">
                 <fieldset>
-                    <legend>Query Twitter</legend>
+
+                    <legend>Words</legend>
 
                     <div class="form-group">
-                        <label for="search" class="col-md-2 col-sm-4 control-label">Search: </label>
-                        <div class="col-md-10">
-                            <input type="text" id='search' class="form-control" name="search">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">All of these words </label>
+                        <div class="col-md-6">
+                            <input type="text" id='allWords' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">This exact phrase: </label>
+                        <div class="col-md-6">
+                            <input type="text" id='exactPhrase' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">Any of these words: </label>
+                        <div class="col-md-6">
+                            <input type="text" id='anyWords' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">None of these words: </label>
+                        <div class="col-md-6">
+                            <input type="text" id='notWords' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">These hashtags: </label>
+                        <div class="col-md-6">
+                            <input type="text" id='hashtags' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <legend>People</legend>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">From these accounts: </label>
+                        <div class="col-md-6">
+                            <input type="text" id='fromAccounts' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">To these accounts: </label>
+                        <div class="col-md-6">
+                            <input type="text" id='toAccount' class="form-control" name="search">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search" class="col-md-4 col-sm-4 control-label">Mentioning these accounts: </label>
+                        <div class="col-md-6">
+                            <input type="text" id='mentionAccounts' class="form-control" name="search">
                         </div>
                     </div>
 

@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var Twit = require('twit')
+var Twit = require('twit');
+var SparqlClient = require('sparql-client');
+var util = require('util');
+var endpoint = 'http://dbpedia.org/sparql';
+
 var Stoplist = require('../public/javascripts/stoplist.js')
 var T = new Twit({
   consumer_key:         'F9DI7pivMCiWCgIDWEDAA6Ovz',
@@ -30,7 +34,7 @@ router.get('/sql', function(req, res, next) {
 	connection.query('SELECT * FROM Tweets', function(err, rows, fields) {
 	  if (!err)
 	    console.log('The solution is: ', rows);
-	  else
+	  else 
 	    console.log('Error while performing Query. '+err);
 	});
 
@@ -40,7 +44,90 @@ router.get('/sql', function(req, res, next) {
 });
 
 router.post('/handle',function(req, res, next){
-	T.get('search/tweets', { q: req.body.search, count: 100 }, function(err, data, response) {
+	
+	console.log(req.body);
+
+	query = '';
+
+	// All words portion of the query
+	if (req.body.allWords != '') {
+		req.body.allWords.split(/ +/).forEach(function(item,index,array){
+			if (item != '') {
+		  		query += item + ' ';
+		  	};
+		});
+		query = query.substring(0, query.length-1);
+	}
+
+	// Exact phrase portion of the query
+	if (req.body.allWords != '') {
+		query += ' "' + req.body.exactPhrase + '" '
+	}
+	// Any words portion of the query
+	if (req.body.allWords != '') {
+		req.body.anyWords.split(/ +/).forEach(function(item,index,array){
+			if (item != '') {
+		  		query += item +' OR ';
+		  	};
+		});
+		query = query.substring(0, query.length-3);
+	}
+
+	// Not these words portion of the query
+	if (req.body.allWords != '') {
+		req.body.notWords.split(/ +/).forEach(function(item,index,array){
+			if (item != '') {
+		  		query += '-' + item + ' ';
+		  	};
+		});
+	}
+
+	// Containing these hashtags
+	if (req.body.allWords != '') {
+		req.body.hashtags.split(/ +/).forEach(function(item,index,array){
+			if (item != '') {
+		    	if (item.charAt(0) == '#') 
+		        	query += item + ' ';
+		    	
+		    	else 
+		    		query += '#' + item + ' ';
+		  	};
+		});
+	}
+	
+	// From these accounts
+	if (req.body.allWords != '') {
+		req.body.fromAccounts.split(/ +/).forEach(function(item,index,array){
+			if (item != '') {
+		    	query += 'from:' + item + ' ';
+		  	};
+		});
+	}
+
+	// To these accounts
+	if (req.body.allWords != '') {
+		req.body.toAccount.split(/ +/).forEach(function(item,index,array){
+			if (item != '') {
+		    	query += 'to:' + item + ' ';
+		  	};
+		});
+	}
+
+	// Mentioning these accounts
+	if (req.body.allWords != '') {
+		req.body.mentionAccounts.split(/ +/).forEach(function(item,index,array){
+			if (item != '') {
+		    	if (item.charAt(0) == '@') 
+		        	query += item + ' ';
+		    	
+		    	else 
+		    		query += '@' + item + ' ';	
+		  	};
+		});
+	}
+	console.log(query);
+
+	T.get('search/tweets', { q: query, count: 100 }, function(err, data, response) {
 	  	
 	  	library = {};
 	  	data.statuses.forEach(function(object,index){
@@ -62,11 +149,11 @@ router.post('/handle',function(req, res, next){
 		}
 		array.sort(function(a,b){return a[1] - b[1]});
 		array.reverse();
-		for(x in data.statuses){
-	  		console.log(data.statuses[x].geo);
-	  	}
-	  	res.send(data.statuses);
+		
+	  	res.send([data.statuses,array]);
+	  	// console.log(data.statuses);
 	});
+	
 });
 
 module.exports = router;
