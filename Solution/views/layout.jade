@@ -2,25 +2,27 @@ doctype html
 html.
 
     <head>
-        <title>Simple Map</title>
+        <title>Intelligent Web Assignment</title>
         <meta name="viewport" content="initial-scale=1.0">
         <meta charset="utf-8">
         <!-- javascripts -->
         <script type="text/javascript" src="/javascripts/jquery-1.12.3.js"></script>
         <script type='text/javascript' src="/javascripts/query.js"></script>
+        <script type='text/javascript' src="/javascripts/wikiquery.js"></script>
         <!-- stylesheets -->
         <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-flatly.min.css">
         <link rel='stylesheet', href='/stylesheets/style.css'>
+        
         <style>
           html, body {
             height: 100%;
           }
           #map {
-            height: 50%;
-            width: 40%;
-            
+            height: 25em;
+            width: 45em;
           }
+
         </style>
 
         <script>
@@ -31,89 +33,166 @@ html.
                 });
             }
             
+            $(document).ready(function(){
+                $(".nav-tabs a").click(function(){
+                    $(this).tab('show');
+                });
+            });
         </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3fgE3XFKrvur9IuLny_HvuqRIIs8-7Ow&callback=initMap" async defer>
-        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3fgE3XFKrvur9IuLny_HvuqRIIs8-7Ow&callback=initMap" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     </head>
 
     <body>       
 
-        <div>
-        <h3>Query Twitter</h3>
-            <form class="form-horizontal" id='query' title="" method="post">
-                <fieldset>
+        <ul class="nav nav-tabs">
+            <li><a href="#twitter">Query Twitter</a></li>
+            <li><a href="#wikipedia">Query Wikipedia</a></li>
+        </ul>
 
-                    <legend>Words</legend>
+        <div class="tab-content">
+            <div id="twitter" class="tab-pane fade in active">
+                <h3>Query Twitter</h3>
+                <form class="form-horizontal" id='query' title="" method="post">
+                    <fieldset>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">All of these words </label>
-                        <div class="col-md-6">
-                            <input type="text" id='allWords' class="form-control" name="search">
+                        <legend>Words</legend>
+
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">All of these words </label>
+                            <div class="col-md-6">
+                                <input type="text" id='allWords' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">This exact phrase: </label>
-                        <div class="col-md-6">
-                            <input type="text" id='exactPhrase' class="form-control" name="search">
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">This exact phrase: </label>
+                            <div class="col-md-6">
+                                <input type="text" id='exactPhrase' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">Any of these words: </label>
-                        <div class="col-md-6">
-                            <input type="text" id='anyWords' class="form-control" name="search">
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">Any of these words: </label>
+                            <div class="col-md-6">
+                                <input type="text" id='anyWords' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">None of these words: </label>
-                        <div class="col-md-6">
-                            <input type="text" id='notWords' class="form-control" name="search">
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">None of these words: </label>
+                            <div class="col-md-6">
+                                <input type="text" id='notWords' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">These hashtags: </label>
-                        <div class="col-md-6">
-                            <input type="text" id='hashtags' class="form-control" name="search">
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">These hashtags: </label>
+                            <div class="col-md-6">
+                                <input type="text" id='hashtags' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <legend>People</legend>
+                        <legend>People</legend>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">From these accounts: </label>
-                        <div class="col-md-6">
-                            <input type="text" id='fromAccounts' class="form-control" name="search">
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">From these accounts: </label>
+                            <div class="col-md-6">
+                                <input type="text" id='fromAccounts' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">To these accounts: </label>
-                        <div class="col-md-6">
-                            <input type="text" id='toAccount' class="form-control" name="search">
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">To these accounts: </label>
+                            <div class="col-md-6">
+                                <input type="text" id='toAccount' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="search" class="col-md-4 col-sm-4 control-label">Mentioning these accounts: </label>
-                        <div class="col-md-6">
-                            <input type="text" id='mentionAccounts' class="form-control" name="search">
+                        <div class="form-group">
+                            <label for="search" class="col-md-4 col-sm-4 control-label">Mentioning these accounts: </label>
+                            <div class="col-md-6">
+                                <input type="text" id='mentionAccounts' class="form-control" name="search">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-3">
-                            <input type="submit" class="btn btn-primary" value="Search">
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-3">
+                                <input type="submit" class="btn btn-primary" value="Search">
+                            </div>
                         </div>
-                    </div>
 
-                </fieldset>
-            </form>
+                    </fieldset>
+                </form>
+                <div style='height:30em;'>
+                    <div id="map" class='col-sm-5' style='margin:1em;'></div>
+                    <div class='col-sm-5'>
+                        <table class="" style='margin:1em;'>
+                            
+                            <tbody id='table'>
+                                
+                            </tbody>
+
+                            <thead>
+                                <tr>
+                                    <th class='col-sm-2'>Word</th>
+                                    <th>Frequency</th>
+                                    
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+                <div id='tweets'></div>
+            </div>
+            
+            <div id="wikipedia" class="tab-pane fade">
+                <form class="form-horizontal" id='wikiquery' title="" method="post">
+                    <fieldset>
+                        <h3>Query Wikipedia</h3>
+
+                        <div class="form-group">
+                            <label for="search" class="col-md-2 col-sm-4 control-label">Search Team 1: </label>
+                            <div class="col-md-10">
+                                <input type="text" id='search1' class="form-control" name="search">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="search" class="col-md-2 col-sm-4 control-label">Search Team 2: </label>
+                            <div class="col-md-10">
+                                <input type="text" id='search2' class="form-control" name="search">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="">
+                                <input type="submit" class="btn btn-primary" value="Search">
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            <div class="container">
+                <h2>Teams</h2>
+
+                    <ul class="nav nav-tabs">
+                        <li><a href="#team1">Team 1</a></li>
+                        <li><a href="#team2">Team 2</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="team1" class="tab-pane fade in active">
+                        <div id='team1'></div>
+                    </div>
+                    <div id="team2" class="tab-pane fade">
+                        <div id='team2'></div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div id='tweets'></div>
-
     </body>
 

@@ -20,13 +20,22 @@ $(document).ready(function(){
             $(data[0]).each(function(index){
                 $(list).append("<div class='well'><h3>"+data[0][index].user.name+"</h3><span class='date'>"+data[0][index].created_at+"</span><p>"+data[0][index].text+"</p></div>");
 
-                // if(data[0][index].geo != null){
-                //     var marker = new google.maps.Marker({
-                //         position: {lat:data[0][index].geo.coordinates[0], lng:data[0][index].geo.coordinates[1]},
-                //         map: map,
-                //         title: 'Hello World!'
-                //     });
-                // }
+                if(data[0][index].geo != null){
+                    var marker = new google.maps.Marker({
+                        position: {lat:data[0][index].geo.coordinates[0], lng:data[0][index].geo.coordinates[1]},
+                        map: map,
+                        title: 'Hello World!'
+                    });
+                }
+                $(list).load()
+            });
+            var list = $("#table");
+            $(list).html("");
+            $(data[1]).each(function(index){
+                $(list).append('<tr>\
+                                <td class="col-sm-2">'+data[1][index][0]+'</td>\
+                                <td>'+data[1][index][1]+'</td>\
+                            </tr>');
             });
 
             $(list).load()
